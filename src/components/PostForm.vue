@@ -1,6 +1,6 @@
 <template>
   <form class="form" @submit.prevent>
-    <h3 class="title">Create new post</h3>
+    <my-title>Create new post</my-title>
     <input
       v-model="post.name"
       @input="post.name = $event.target.value"
@@ -26,6 +26,7 @@ export default {
       post: {
         name: "",
         description: "",
+        id: null,
       },
     };
   },
@@ -37,6 +38,7 @@ export default {
       this.post = {
         name: "",
         description: "",
+        id: null,
       };
     },
   },

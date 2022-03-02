@@ -14,5 +14,6 @@ export default {
   color: white;
   padding: 10px 15px;
   border: none;
+  border-radius: 5px;
 }
 </style>
