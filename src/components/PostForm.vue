@@ -15,7 +15,7 @@
       type="text"
       class="field"
     />
-    <button class="btn" @click="createPost">Add post</button>
+    <my-button @click="createPost" class="btnCreate">Add post</my-button>
   </form>
 </template>
 
@@ -44,11 +44,6 @@ export default {
 </script>
 
 <style scoped>
-.title {
-  text-align: center;
-  font-size: 24px;
-}
-
 .form {
   display: flex;
   flex-direction: column;
@@ -61,12 +56,8 @@ export default {
   margin-top: 15px;
 }
 
-.btn {
-  margin-top: 15px;
+.btnCreate {
   align-self: flex-end;
-  background-color: teal;
-  color: white;
-  padding: 10px 15px;
-  border: none;
+  margin-top: 15px;
 }
 </style>

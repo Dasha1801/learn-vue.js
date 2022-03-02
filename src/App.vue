@@ -1,13 +1,13 @@
 <template>
   <div class="app">
     <post-form @create="createPost" />
-    <post-list :posts="posts" />
+    <post-list :posts="posts" @remove="removePost" />
   </div>
 </template>
 
 <script>
 import PostForm from "./components/PostForm";
-import PostList from "./components/Post";
+import PostList from "./components/PostList";
 
 export default {
   components: { PostForm, PostList },
@@ -26,6 +26,9 @@ export default {
     createPost(post) {
       this.posts = [...this.posts, post];
     },
+    removePost(post) {
+      this.posts = this.posts.filter((el) => el.id !== post.id);
+    },
   },
 };
 </script>
@@ -41,5 +44,14 @@ export default {
   padding: 20px;
   max-width: 960px;
   margin: 0 auto;
+}
+
+.title {
+  text-align: center;
+  font-size: 24px;
+}
+
+button {
+  cursor: pointer;
 }
 </style>
