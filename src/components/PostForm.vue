@@ -2,16 +2,16 @@
   <form class="form" @submit.prevent>
     <my-title>Create new post</my-title>
     <input
-      v-model="post.name"
-      @input="post.name = $event.target.value"
-      placeholder="name"
+      v-model="post.title"
+      @input="post.title = $event.target.value"
+      placeholder="title"
       type="text"
       class="field"
     />
     <textarea
-      v-model="post.description"
-      @input="post.description = $event.target.value"
-      placeholder="description"
+      v-model="post.body"
+      @input="post.body = $event.target.value"
+      placeholder="body"
       type="text"
       class="field"
     />
@@ -24,8 +24,8 @@ export default {
   data() {
     return {
       post: {
-        name: "",
-        description: "",
+        title: "",
+        body: "",
         id: null,
       },
     };
@@ -34,10 +34,11 @@ export default {
   methods: {
     createPost() {
       this.post.id = Date.now();
-      this.$emit("create", this.post);
+      if (this.post.title.trim() && this.post.body.trim())
+        this.$emit("create", this.post);
       this.post = {
-        name: "",
-        description: "",
+        title: "",
+        body: "",
         id: null,
       };
     },

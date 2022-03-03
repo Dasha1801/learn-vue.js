@@ -14,18 +14,13 @@
 <script>
 import PostForm from "./components/PostForm";
 import PostList from "./components/PostList";
+import axios from "axios";
 
 export default {
   components: { PostForm, PostList },
   data() {
     return {
-      posts: [
-        { id: 1, name: "Post about JS 1.", description: "What is JS?" },
-        { id: 2, name: "Post about JS 2.", description: "What is JS?" },
-        { id: 2, name: "Post about JS 3.", description: "What is JS?" },
-        { id: 4, name: "Post about JS 4.", description: "What is JS?" },
-        { id: 5, name: "Post about JS 5.", description: "What is JS?" },
-      ],
+      posts: [],
       dialogVisible: false,
     };
   },
@@ -40,6 +35,20 @@ export default {
     showDialog() {
       this.dialogVisible = true;
     },
+
+    async fetchPosts() {
+      try {
+        const response = await axios
+          .get("https://jsonplaceholder.typicode.com/posts?_limit=10")
+          .then((res) => res.data);
+        this.posts = response;
+      } catch (e) {
+        console.log(e);
+      }
+    },
+  },
+  mounted() {
+    this.fetchPosts();
   },
 };
 </script>

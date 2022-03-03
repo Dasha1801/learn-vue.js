@@ -1,8 +1,8 @@
 <template>
   <div class="post">
     <div>
-      <div><strong>Name: </strong>{{ post.name }}</div>
-      <div><strong>Description: </strong>{{ post.description }}</div>
+      <div><strong>Title: </strong>{{ post.title }}</div>
+      <div><strong>Description: </strong>{{ post.body }}</div>
     </div>
     <div class="btnDelete">
       <my-button @click="$emit('remove', post)">Delete</my-button>
@@ -26,5 +26,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.btnDelete {
+  margin-left: 10px;
 }
 </style>
