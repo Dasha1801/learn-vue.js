@@ -11,6 +11,6 @@ export default {
 <style scoped>
 .title {
   text-align: center;
-  font-size: 24px;
+  font-size: 30px;
 }
 </style>

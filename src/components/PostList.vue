@@ -25,20 +25,17 @@ export default {
 .postList {
   margin-top: 20px;
 }
-
 .posts {
   display: inline-block;
   margin-right: 10px;
 }
-
 .posts-enter-active,
 .posts-leave-active {
-  transition: all 0.4s ease;
+  transition: all 0.5s ease;
 }
-
 .posts-enter-from,
 .posts-leave-to {
   opacity: 0;
-  transform: translateX(130px);
+  transform: translateX(50%);
 }
 </style>
