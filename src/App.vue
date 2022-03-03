@@ -4,10 +4,15 @@
       <my-title>Page with posts</my-title>
       <my-button @click="showDialog" class="btnCreate">Create post</my-button>
     </div>
-    <my-dialog v-model:show="dialogVisible"
-      ><post-form @create="createPost"
-    /></my-dialog>
-    <post-list :posts="posts" @remove="removePost" />
+    <my-dialog v-model:show="dialogVisible">
+      <post-form @create="createPost" />
+    </my-dialog>
+    <my-input
+      placeholder="Search..."
+      v-model="searchQuery"
+      @input="searchQuery = $event.target.value"
+    />
+    <post-list :posts="searchPosts" @remove="removePost" />
   </div>
 </template>
 
@@ -22,6 +27,7 @@ export default {
     return {
       posts: [],
       dialogVisible: false,
+      searchQuery: "",
     };
   },
   methods: {
@@ -35,7 +41,6 @@ export default {
     showDialog() {
       this.dialogVisible = true;
     },
-
     async fetchPosts() {
       try {
         const response = await axios
@@ -49,6 +54,13 @@ export default {
   },
   mounted() {
     this.fetchPosts();
+  },
+  computed: {
+    searchPosts() {
+      return this.posts.filter((post) =>
+        post.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    },
   },
 };
 </script>

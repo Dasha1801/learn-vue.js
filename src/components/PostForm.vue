@@ -1,12 +1,10 @@
 <template>
   <form class="form" @submit.prevent>
     <my-title>Create new post</my-title>
-    <input
+    <my-input
       v-model="post.title"
       @input="post.title = $event.target.value"
       placeholder="title"
-      type="text"
-      class="field"
     />
     <textarea
       v-model="post.body"
@@ -20,7 +18,9 @@
 </template>
 
 <script>
+import MyInput from "./UI/MyInput.vue";
 export default {
+  components: { MyInput },
   data() {
     return {
       post: {
