@@ -1,13 +1,13 @@
 <template>
   <div class="postList" v-if="posts.length > 0">
-    <my-title>All Posts </my-title>
     <transition-group name="posts">
       <post-item
         v-for="post in posts"
         :post="post"
         :key="post.id"
         @remove="$emit('remove', post)"
-    /></transition-group>
+      />
+    </transition-group>
   </div>
 </template>
 
@@ -33,7 +33,7 @@ export default {
 
 .posts-enter-active,
 .posts-leave-active {
-  transition: all 0.6s ease;
+  transition: all 0.4s ease;
 }
 
 .posts-enter-from,

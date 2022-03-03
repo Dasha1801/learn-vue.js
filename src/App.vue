@@ -12,6 +12,11 @@
       v-model="searchQuery"
       @input="searchQuery = $event.target.value"
     />
+    <page-number
+      :totalPages="totalPages"
+      :page="page"
+      @change="changeNumberPage"
+    />
     <post-list :posts="searchPosts" @remove="removePost" />
   </div>
 </template>
@@ -19,15 +24,19 @@
 <script>
 import PostForm from "./components/PostForm";
 import PostList from "./components/PostList";
+import PageNumber from "./components/PageNumber.vue";
 import axios from "axios";
 
 export default {
-  components: { PostForm, PostList },
+  components: { PostForm, PostList, PageNumber },
   data() {
     return {
       posts: [],
       dialogVisible: false,
       searchQuery: "",
+      page: 1,
+      limit: 10,
+      totalPages: 0,
     };
   },
   methods: {
@@ -38,22 +47,39 @@ export default {
     removePost(post) {
       this.posts = this.posts.filter((el) => el.id !== post.id);
     },
+    changeNumberPage(num) {
+      this.page = num;
+    },
     showDialog() {
       this.dialogVisible = true;
     },
     async fetchPosts() {
       try {
-        const response = await axios
-          .get("https://jsonplaceholder.typicode.com/posts?_limit=10")
-          .then((res) => res.data);
-        this.posts = response;
+        this.loading = true;
+        const response = await axios.get(
+          "https://jsonplaceholder.typicode.com/posts?",
+          {
+            params: { _limit: this.limit, _page: this.page },
+          }
+        );
+        this.posts = response.data;
+        this.totalPages = Math.ceil(
+          response.headers["x-total-count"] / this.limit
+        );
       } catch (e) {
+        alert("The server does not respond!");
         console.log(e);
       }
     },
   },
   mounted() {
     this.fetchPosts();
+  },
+
+  watch: {
+    page() {
+      this.fetchPosts();
+    },
   },
   computed: {
     searchPosts() {
