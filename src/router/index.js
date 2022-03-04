@@ -3,8 +3,8 @@ import AboutPage from "../pages/AboutPage";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
-  { path: "/", component: MainPage },
-  { path: "/about", component: AboutPage },
+  { path: "/", component: MainPage, name: "MainPage" },
+  { path: "/about", component: AboutPage, name: "AboutPage" },
 ];
 
 const router = createRouter({

@@ -41,7 +41,7 @@ export default {
       this.post.id = Date.now();
       if (this.post.title.trim() && this.post.body.trim()) {
         this.setDialogVisible();
-        this.setPosts([...this.posts, this.post]);
+        this.setPosts([this.post, ...this.posts]);
       }
       this.post = {
         title: "",

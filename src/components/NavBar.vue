@@ -16,7 +16,8 @@
   display: flex;
   align-items: center;
   background-color: teal;
-  margin-bottom: 30px;
+  max-width: 1200px;
+  margin: 0 auto 30px;
   box-shadow: 2px 2px 4px gray;
 }
 
@@ -29,5 +30,9 @@
   font-size: 24px;
   text-decoration: none;
   margin-left: 20px;
+}
+
+.rout.router-link-exact-active {
+  border-bottom: 1px solid white;
 }
 </style>

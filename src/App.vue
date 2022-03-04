@@ -1,7 +1,15 @@
 <template>
+  <nav-bar></nav-bar>
   <div class="app">
-    <nav-bar></nav-bar>
-    <router-view></router-view>
+    <router-view v-slot="{ Component, route }">
+      <transition
+        enter-active-class="animate__animated animate__fadeInLeft"
+        leave-active-class="animate__animated animate__fadeOutRight"
+        mode="out-in"
+      >
+        <div :key="route.name"><component :is="Component" /></div
+      ></transition>
+    </router-view>
   </div>
 </template>
 
