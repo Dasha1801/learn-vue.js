@@ -1,12 +1,7 @@
 <template>
   <div class="postList" v-if="posts.length > 0">
     <transition-group name="posts">
-      <post-item
-        v-for="post in posts"
-        :post="post"
-        :key="post.id"
-        @remove="$emit('remove', post)"
-      />
+      <post-item v-for="post in posts" :post="post" :key="post.id" />
     </transition-group>
   </div>
 </template>
@@ -23,7 +18,7 @@ export default {
 
 <style scoped>
 .postList {
-  margin-top: 20px;
+  margin: 20px 0;
 }
 .posts {
   display: inline-block;

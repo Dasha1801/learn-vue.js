@@ -5,7 +5,7 @@
       :key="pageNumber"
       :class="{ currentBtnPage: page === pageNumber }"
       class="page"
-      @click="$emit('change', pageNumber)"
+      @click="changeNumberPage(pageNumber)"
     >
       {{ pageNumber }}
     </button>
@@ -13,10 +13,22 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
 export default {
-  props: {
-    totalPages: { type: Number, required: true },
-    page: { type: Number, required: true },
+  methods: {
+    ...mapMutations({
+      setPage: "post/setPage",
+    }),
+    changeNumberPage(num) {
+      this.setPage(num);
+    },
+  },
+
+  computed: {
+    ...mapState({
+      page: (state) => state.post.page,
+      totalPages: (state) => state.post.totalPages,
+    }),
   },
 };
 </script>

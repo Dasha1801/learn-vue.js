@@ -1,22 +1,22 @@
 <template>
-  <div class="dialog" v-if="show" @click.stop="hideDialog">
+  <div class="dialog" v-if="dialogVisible" @click.stop="setDialogVisible">
     <div class="content" @click.stop><slot></slot></div>
   </div>
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "my-dialog",
-  props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
-  },
   methods: {
-    hideDialog() {
-      this.$emit("update:show", false);
-    },
+    ...mapMutations({
+      setDialogVisible: "post/setDialogVisible",
+    }),
+  },
+  computed: {
+    ...mapState({
+      dialogVisible: (state) => state.post.dialogVisible,
+    }),
   },
 };
 </script>

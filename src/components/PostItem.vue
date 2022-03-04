@@ -5,15 +5,31 @@
       <div><strong>Description: </strong>{{ post.body }}</div>
     </div>
     <div class="btnDelete">
-      <my-button @click="$emit('remove', post)">Delete</my-button>
+      <my-button @click="removePost(post)">Delete</my-button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
 export default {
   props: {
     post: { type: Object, required: true },
+  },
+
+  methods: {
+    ...mapMutations({
+      setPosts: "post/setPosts",
+    }),
+    removePost(post) {
+      this.setPosts(this.posts.filter((el) => el.id !== post.id));
+    },
+  },
+
+  computed: {
+    ...mapState({
+      posts: (state) => state.post.posts,
+    }),
   },
 };
 </script>

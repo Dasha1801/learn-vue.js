@@ -13,11 +13,12 @@
       type="text"
       class="field"
     />
-    <my-button @click="createPost" class="btnCreate">Add post</my-button>
+    <my-button class="btnCreate" @click="createPost">Add post</my-button>
   </form>
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
 import MyInput from "./UI/MyInput.vue";
 export default {
   components: { MyInput },
@@ -32,16 +33,28 @@ export default {
   },
 
   methods: {
+    ...mapMutations({
+      setPosts: "post/setPosts",
+      setDialogVisible: "post/setDialogVisible",
+    }),
     createPost() {
       this.post.id = Date.now();
-      if (this.post.title.trim() && this.post.body.trim())
-        this.$emit("create", this.post);
+      if (this.post.title.trim() && this.post.body.trim()) {
+        this.setDialogVisible();
+        this.setPosts([...this.posts, this.post]);
+      }
       this.post = {
         title: "",
         body: "",
         id: null,
       };
     },
+  },
+  computed: {
+    ...mapState({
+      dialogVisible: (state) => state.post.dialogVisible,
+      posts: (state) => state.post.posts,
+    }),
   },
 };
 </script>

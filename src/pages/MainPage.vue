@@ -1,73 +1,38 @@
 <template>
   <div class="container">
     <my-title>Page with posts</my-title>
-    <my-button @click="showDialog" class="btnCreate">Create post</my-button>
+    <my-button @click="setDialogVisible" class="btnCreate"
+      >Create post</my-button
+    >
   </div>
-  <my-dialog v-model:show="dialogVisible">
-    <post-form @create="createPost" />
+  <my-dialog>
+    <post-form></post-form>
   </my-dialog>
   <my-input
     placeholder="Search..."
-    v-model="searchQuery"
-    @input="searchQuery = $event.target.value"
+    :model-value="searchQuery"
+    @update:model-value="setSearchQuery"
   />
-  <page-number
-    :totalPages="totalPages"
-    :page="page"
-    @change="changeNumberPage"
-  />
-  <post-list :posts="searchPosts" @remove="removePost" />
+  <page-number></page-number>
+  <post-list :posts="searchPosts"></post-list>
 </template>
 
 <script>
+import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
 import PostForm from "../components/PostForm.vue";
 import PostList from "../components/PostList.vue";
 import PageNumber from "../components/PageNumber.vue";
-import axios from "axios";
 
 export default {
   components: { PostForm, PostList, PageNumber },
-  data() {
-    return {
-      posts: [],
-      dialogVisible: false,
-      searchQuery: "",
-      page: 1,
-      limit: 10,
-      totalPages: 0,
-    };
-  },
   methods: {
-    createPost(post) {
-      this.posts = [...this.posts, post];
-      this.dialogVisible = false;
-    },
-    removePost(post) {
-      this.posts = this.posts.filter((el) => el.id !== post.id);
-    },
-    changeNumberPage(num) {
-      this.page = num;
-    },
-    showDialog() {
-      this.dialogVisible = true;
-    },
-    async fetchPosts() {
-      try {
-        const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/posts?",
-          {
-            params: { _limit: this.limit, _page: this.page },
-          }
-        );
-        this.posts = response.data;
-        this.totalPages = Math.ceil(
-          response.headers["x-total-count"] / this.limit
-        );
-      } catch (e) {
-        alert("The server does not respond!");
-        console.log(e);
-      }
-    },
+    ...mapActions({
+      fetchPosts: "post/fetchPosts",
+    }),
+    ...mapMutations({
+      setSearchQuery: "post/setSearchQuery",
+      setDialogVisible: "post/setDialogVisible",
+    }),
   },
   mounted() {
     this.fetchPosts();
@@ -79,11 +44,14 @@ export default {
     },
   },
   computed: {
-    searchPosts() {
-      return this.posts.filter((post) =>
-        post.title.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
-    },
+    ...mapState({
+      dialogVisible: (state) => state.post.dialogVisible,
+      searchQuery: (state) => state.post.searchQuery,
+      page: (state) => state.post.page,
+    }),
+    ...mapGetters({
+      searchPosts: "post/searchPosts",
+    }),
   },
 };
 </script>
